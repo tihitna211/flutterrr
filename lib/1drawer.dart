@@ -4,6 +4,7 @@ import 'package:newproj/Languages.dart';
 import 'package:newproj/Slider.dart';
 import 'package:newproj/main.dart';
 import 'package:newproj/searchpage.dart';
+import 'package:newproj/spotit.dart';
 //import 'package:newproj/main.dart';
 
 class Drower extends StatefulWidget {
@@ -37,6 +38,16 @@ class _DrowerState extends State<Drower> {
     );
   }
 
+  List<String> imagePaths = [
+    'https://media.istockphoto.com/id/1460007178/photo/library-books-on-table-and-background-for-studying-learning-and-research-in-education-school.webp?s=1024x1024&w=is&k=20&c=cuzIXmvKHLpoGxGIft9zCiTw-jeL0Gjp7UNZau0MNkk=',
+    'https://media.istockphoto.com/id/803039496/photo/books-on-table-against-shelf-in-library-at-school.jpg?s=1024x1024&w=is&k=20&c=EG_B1AoCZL_lAfv4MCWr6LBRkL5M9-_taKGwGbKIDC4=',
+    'https://media.istockphoto.com/id/1419410282/photo/silent-forest-in-spring-with-beautiful-bright-sun-rays.jpg?s=1024x1024&w=is&k=20&c=K8yBJVB-TtpPF1O2zOhVlzXECDxJsadlRrLf4gXXNkk='
+  ];
+  List<String> title = [
+    'short',
+    'lily',
+    'roses',
+  ];
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -212,15 +223,33 @@ class _DrowerState extends State<Drower> {
                     scrollDirection: Axis.horizontal,
                     itemCount: 10,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        width: 200.0,
-                        height: 200,
-                        margin: EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 173, 81, 81),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      );
+                      return GestureDetector(
+                          onDoubleTap: () =>
+                              Navigator.push((context), MaterialPageRoute(
+                                builder: (context) {
+                                  return SpotIfy(
+                                    name: name[index % name.length].toString(),
+                                    image:
+                                        imagePaths[index % imagePaths.length],
+                                  );
+                                },
+                              )),
+                          child: Container(
+                              width: 200.0,
+                              height: 200,
+                              margin: EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 173, 81, 81),
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Column(children: [
+                                Image.network(
+                                  imagePaths[index % imagePaths.length],
+                                  fit: BoxFit.cover,
+                                  height: 170,
+                                ),
+                                Text(title[index % title.length].toString()),
+                              ])));
                     }),
               ),
               BottomNavigationBar(

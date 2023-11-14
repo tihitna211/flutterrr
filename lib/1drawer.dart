@@ -118,6 +118,11 @@ class _DrowerState extends State<Drower> {
                       title: Text('profile').tr(),
                       trailing: Icon(Icons.check),
                       onTap: () {}),
+                  ListTile(
+                      leading: Icon(Icons.logout_outlined),
+                      title: Text('logout').tr(),
+                      trailing: Icon(Icons.check),
+                      onTap: () {}),
                 ],
               ),
             ),
@@ -236,7 +241,7 @@ class _DrowerState extends State<Drower> {
                               )),
                           child: Container(
                               width: 200.0,
-                              height: 200,
+                              height: 150,
                               margin: EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
                                 color: Color.fromARGB(255, 173, 81, 81),
@@ -246,7 +251,7 @@ class _DrowerState extends State<Drower> {
                                 Image.network(
                                   imagePaths[index % imagePaths.length],
                                   fit: BoxFit.cover,
-                                  height: 170,
+                                  height: 120,
                                 ),
                                 Text(title[index % title.length].toString()),
                               ])));

@@ -56,7 +56,7 @@ class SpotIfy extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 1,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Color.fromARGB(255, 9, 228, 16),
+                        color: Colors.grey,
                       ),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,

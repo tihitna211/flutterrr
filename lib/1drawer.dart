@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:newproj/Languages.dart';
 import 'package:newproj/Slider.dart';
+import 'package:newproj/editprofilepage.dart';
 import 'package:newproj/main.dart';
 import 'package:newproj/searchpage.dart';
 import 'package:newproj/spotit.dart';
@@ -117,7 +118,13 @@ class _DrowerState extends State<Drower> {
                       leading: Icon(Icons.person_2),
                       title: Text('profile').tr(),
                       trailing: Icon(Icons.check),
-                      onTap: () {}),
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => profileEdit(),
+                            ));
+                      }),
                   ListTile(
                       leading: Icon(Icons.logout_outlined),
                       title: Text('logout').tr(),
@@ -244,7 +251,7 @@ class _DrowerState extends State<Drower> {
                               height: 150,
                               margin: EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
-                                color: Color.fromARGB(255, 173, 81, 81),
+                                color: Colors.grey,
                                 borderRadius: BorderRadius.circular(10.0),
                               ),
                               child: Column(children: [

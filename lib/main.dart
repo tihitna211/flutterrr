@@ -113,6 +113,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(
                   height: 70,
                   child: TextFormField(
+                    onFieldSubmitted: (value) {},
                     controller: _usercontroller,
                     decoration: InputDecoration(
                       hintText: "enter email address....",

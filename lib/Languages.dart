@@ -34,14 +34,18 @@ class LanguageChanger extends StatelessWidget {
         return Scaffold(
           body: Container(
               child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('welcome').tr(),
+              Text(
+                'welcome',
+                style: TextStyle(fontFamily: "PowerGeez"),
+              ).tr(),
               MaterialButton(
                   onPressed: () {
                     context.setLocale(Locale('en', 'US'));
                   },
                   child: Text('english'),
-                  minWidth: double.infinity,
+                  minWidth: 300,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   color: (context.locale == Locale('en', 'US'))
@@ -55,7 +59,7 @@ class LanguageChanger extends StatelessWidget {
                     context.setLocale(Locale('am', 'ET'));
                   },
                   child: Text('amharic').tr(),
-                  minWidth: double.infinity,
+                  minWidth: 300,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   color: (context.locale == Locale('am', 'ET'))
@@ -69,7 +73,7 @@ class LanguageChanger extends StatelessWidget {
                     context.setLocale(Locale('fr', 'FR'));
                   },
                   child: Text('franch'),
-                  minWidth: double.infinity,
+                  minWidth: 300,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20)),
                   color: (context.locale == Locale('fr', 'FR'))

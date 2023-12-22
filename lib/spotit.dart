@@ -1,134 +1,384 @@
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-//import 'package:titiiiiiiii/other/boxs.dart';
-//import 'package:titiiiiiiii/other/cart.dart';
-//import 'package:titiiiiiiii/other/kkcc.dart';
-//import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'nextpage.dart';
+import 'TheQr.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class SpotIfy extends StatelessWidget {
-  final String name;
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
-  final String image;
-  SpotIfy({super.key, required this.name, required this.image});
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth < 500) {
+        return const ForMobile();
+      } else {
+        return const ForTablet();
+      }
+    });
+  }
+}
+
+class ForMobile extends StatefulWidget {
+  const ForMobile({
+    super.key,
+  });
+
+  @override
+  State<ForMobile> createState() => _ForMobileState();
+}
+
+class _ForMobileState extends State<ForMobile> {
+  Future register() async {
+    var url =
+        Uri.parse('http://192.168.1.3/flutter_api_updated-main/create.php');
+    var response = await http
+        .post(url, body: {'password': password.text, 'email': email.text});
+    final Map<String, dynamic> data = json.decode(response.body);
+    if (data['success']) {
+      Fluttertoast.showToast(
+          msg: "submitted",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white);
+      // Handle the non-error case here
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return NextPage();
+        },
+      ));
+    } else {
+      Fluttertoast.showToast(
+          msg: "takennn ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white);
+    }
+  }
+
+// print(await http.read(
+//   Uri.https('example.com', 'foobar.txt')));
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  bool VisibleText = true;
+
+  var error = "";
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.white,
-            elevation: 0,
-            actions: [
-              Icon(
-                Icons.shopping_basket_outlined,
-                color: Colors.black,
-              )
-            ],
-          ),
-          body: Container(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: Colors.grey,
+        body: Builder(builder: (context) {
+          return SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
               child: Center(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Image.network(
-                      image,
-                      height: MediaQuery.of(context).size.height * 0.45,
-                      width: MediaQuery.of(context).size.width * 0.85,
-                    ),
-                  ),
-                  Text(
-                    name,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueAccent),
-                  ),
-                  Text('plant are good we should protect themsckknkjihxswa',
-                      textAlign: TextAlign.start),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      //alignment: Alignment(),
-                      width: MediaQuery.of(context).size.width * 1,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.grey,
+                child: Column(
+                  children: [
+                    Image.asset('assets/Asset 4.png',
+                        width: MediaQuery.of(context).size.width * 0.55),
+                    const SizedBox(height: 32),
+                    TextButton(
+                      onPressed: () {
+                        register();
+                        // Navigator.push(context, MaterialPageRoute(
+                        //   builder: (context) {
+                        //     return NextPage();
+                        //   },
+                        // ));
+                      },
+                      child: const Text(
+                        'sign in',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
                       ),
-                      child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  children: [
-                                    Icon(Icons.arrow_upward_outlined),
-                                    Text(
-                                      'idk',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text('fruhasedjscx'),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Icon(Icons.fireplace),
-                                    Text(
-                                      'temprature',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text('20c to 30c'),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Icon(Icons.local_hotel),
-                                    Text(
-                                      'pot',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text('creamy pot'),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      'total price',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextButton(
-                                    //color: Color.fromARGB(255, 20, 24, 20),
-                                    child: Text(
-                                      'add to cart',
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                )
-                              ],
-                            )
-                          ]),
                     ),
-                  )
-                ]),
-          )));
-    });
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      child: TextFormField(
+                        controller: email,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.deepOrange,
+                          hintText: 'email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 19),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20)),
+                      width: MediaQuery.of(context).size.width * 0.85,
+                      height: MediaQuery.of(context).size.height * 0.15,
+                      child: Expanded(
+                        child: TextField(
+                          controller: password,
+                          obscureText: VisibleText,
+                          onChanged: (value) {
+                            if (value.length < 8) {
+                              setState(() {
+                                error = "too short";
+                              });
+                            } else if (value.length >= 8 && value.length < 12) {
+                              setState(() {
+                                error = "medium";
+                              });
+                            }
+                            // ignore: curly_braces_in_flow_control_structures
+                            else {
+                              setState(() {
+                                error = "good!";
+                              });
+                            }
+                            ;
+                          },
+                          decoration: InputDecoration(
+                            errorText: error,
+                            errorStyle: TextStyle(
+                                color: (error == 'good!')
+                                    ? Colors.green
+                                    : (error == "too short")
+                                        ? Colors.red
+                                        : (error == 'medium')
+                                            ? Colors.amber
+                                            : null),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  VisibleText = !VisibleText;
+                                });
+                              },
+                              icon: Icon((VisibleText)
+                                  ? Icons.visibility
+                                  : (!VisibleText)
+                                      ? Icons.visibility_off_outlined
+                                      : null),
+                            ),
+                            hintText: "password",
+                            filled: true,
+                            fillColor: Colors.deepOrange,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                        child: GestureDetector(
+                      onDoubleTap: () {
+                        Navigator.push(context, MaterialPageRoute(
+                          builder: (context) {
+                            return TheQr();
+                          },
+                        ));
+                      },
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 1,
+                          decoration: BoxDecoration(
+                              color: Color(0xffff3b00),
+                              borderRadius: BorderRadius.circular(20)),
+                          child: const Image(
+                            image: AssetImage(
+                              'assets/Intersect.png',
+                            ),
+                            fit: BoxFit.cover,
+                          )
+                          // AssetImage('assets/intersect.png'),
+                          ),
+                    ))
+                  ],
+                ),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  }
+}
+
+class ForTablet extends StatefulWidget {
+  const ForTablet({
+    super.key,
+  });
+
+  @override
+  State<ForTablet> createState() => _ForTabletState();
+}
+
+class _ForTabletState extends State<ForTablet> {
+  var _usercontroller = TextEditingController();
+  bool VisibleText = true;
+  var error = "";
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Builder(builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.grey,
+          body: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  height: MediaQuery.of(context).size.height * 0.9,
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 32),
+                      TextButton(
+                        onPressed: () {
+                          // register();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return NextPage();
+                              },
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'sign in',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        //decoration: BoxDecoration(color: Colors.orange),
+                        padding: const EdgeInsets.all(8.0),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.deepOrange,
+                            hintText: 'email',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 9),
+                      Container(
+                        //color: Colors.orange,
+                        padding: const EdgeInsets.all(8.0),
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: TextFormField(
+                          obscureText: VisibleText,
+                          onChanged: (value) {
+                            if (value.length < 8) {
+                              setState(() {
+                                error = "too short";
+                              });
+                            } else if (value.length >= 8 && value.length < 12) {
+                              setState(() {
+                                error = "medium";
+                              });
+                            }
+                            // ignore: curly_braces_in_flow_control_structures
+                            else {
+                              setState(() {
+                                error = "good!";
+                              });
+                            }
+                            ;
+                          },
+                          decoration: InputDecoration(
+                            errorText: error,
+                            errorStyle: TextStyle(
+                                color: (error == 'good!')
+                                    ? Colors.green
+                                    : (error == "too short")
+                                        ? Colors.red
+                                        : (error == 'medium')
+                                            ? Colors.amber
+                                            : null),
+                            suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  VisibleText = !VisibleText;
+                                });
+                              },
+                              icon: Icon((VisibleText)
+                                  ? Icons.visibility
+                                  : (!VisibleText)
+                                      ? Icons.visibility_off_outlined
+                                      : null),
+                            ),
+                            hintText: "password",
+                            filled: true,
+                            fillColor: Colors.deepOrange,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Image.asset('assets/Asset 4.png',
+                          width: MediaQuery.of(context).size.width * 0.55),
+                    ],
+                  ),
+                ),
+                Expanded(
+                    child: GestureDetector(
+                  onDoubleTap: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return TheQr();
+                      },
+                    ));
+                  },
+                  child: Container(
+                      //height: MediaQuery.of(context).size.height * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      decoration: BoxDecoration(
+                          color: Colors.deepOrange,
+                          borderRadius: BorderRadius.circular(20)),
+                      // child: const Image(
+                      //   image: AssetImage(
+                      //     'assets/Intersect.png',
+                      //   ),
+                      //   fit: BoxFit.cover,
+                      // )
+                      // AssetImage('assets/intersect.png'),
+                      ),
+                ))
+              ]),
+            ),
+          ),
+        );
+      }),
+    );
   }
 }
